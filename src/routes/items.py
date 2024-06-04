@@ -10,7 +10,6 @@ from managers.items import ItemsManager
 from deps import SessionDep
 
 router = APIRouter()
-items_manager = ItemsManager()
 
 
 @router.get("/", response_model=ItemsGetResponseSchema)

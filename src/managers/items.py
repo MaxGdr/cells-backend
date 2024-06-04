@@ -5,7 +5,7 @@ from schemas.items import ItemSchema
 
 
 class ItemsManager:
-    def __init__(self):
+    def __init__(self, session: Session):
         self._items_crud = ItemsCrud()
 
     def get_items(self, skip: int = 0, limit: int = 100) -> List[ItemSchema]:
