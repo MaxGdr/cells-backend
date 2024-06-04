@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "cells-backend"
+version = "0.1.0"
+description = ""
+authors = ["MaxGdr <gendre.maxime@gmail.com>"]
+readme = "README.md"
+packages = [{include = "*", from="src"}]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.111.0"
+sqlalchemy = "^2.0.30"
+alembic = "^1.13.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
