@@ -7,14 +7,9 @@ from routes import items
 # from app.core.config import settings
 
 
-def custom_generate_unique_id(route: APIRoute) -> str:
-    return f"{route.tags[0]}-{route.name}"
-
-
 app = FastAPI(
     title="MySuperAPI",
-    openapi_url=f"v1/openapi.json",
-    generate_unique_id_function=custom_generate_unique_id,
+    openapi_url=f"/v1/openapi.json",
 )
 
 # Set all CORS enabled origins
@@ -29,5 +24,5 @@ app.add_middleware(
 
 api_router = APIRouter()
 # api_router.include_router(login.router, tags=["login"])
-api_router.include_router(items.router, prefix="/users", tags=["users"])
-app.include_router(api_router, prefix="v1")
+api_router.include_router(items.router, prefix="/items", tags=["items"])
+app.include_router(api_router, prefix="/v1")

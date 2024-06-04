@@ -2,6 +2,7 @@ from typing import List
 from db.items import ItemsCrud
 from models.items import Item
 from schemas.items import ItemSchema
+from sqlmodel import Session
 
 
 class ItemsManager:

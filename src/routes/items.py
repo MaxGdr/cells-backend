@@ -1,9 +1,8 @@
 from typing import Any, List
 
-from fastapi import APIRouter, HTTPException
-from sqlmodel import func, select
+from fastapi import APIRouter
 
-from models.items import Item, ItemCreate, ItemUpdate
+from models.items import Item
 from schemas.items import ItemSchema, ItemsGetRequestSchema, ItemsGetResponseSchema
 
 from managers.items import ItemsManager
