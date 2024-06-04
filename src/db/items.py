@@ -1,20 +1,23 @@
 from typing import List
-from sqlalchemy.orm import Session
+from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from models.items import Item
 
 
 
 class ItemsCrud:
-    def __init__(self, db: Session):
-        self.db = db
+    def __init__(self, db: AsyncSession):
+        self._db = db
 
-    def get_items(self, skip: int = 0, limit: int = 100) -> List[Item]:
-        items: List[Item] = self.db.query(Item).offset(skip).limit(limit).all()
+    async def get_items(self, skip: int = 0, limit: int = 100) -> List[Item]:
+        items: List[Item] = (await self._db.scalars(
+                select(Item).offset(skip).limit(limit)
+            )).all()
         return items
 
-    def create_item(self, item: Item) -> Item:
-        self.db.add(item)
-        self.db.commit()
-        self.db.refresh(item)
+    async def create_item(self, item: Item) -> Item:
+        self._db.add(item)
+        self._db.commit() # Can be placed on manager level instead to improve commit performance
+        self._db.refresh(item)
         return item
