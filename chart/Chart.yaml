@@ -1,0 +1,11 @@
+apiVersion: v2
+name: cells-backend
+description: A Helm chart for Kubernetes
+
+type: application
+
+# This is not used since we don't push helm charts as packages in artifactory
+version: 0.1.0
+
+# this version is overriden by the github action
+appVersion: ""
