@@ -17,6 +17,8 @@ class ItemsCrud:
 
     async def create_item(self, item: Item) -> Item:
         self._db.add(item)
-        await self._db.commit()  # Can be placed on manager level instead to improve commit performance
+        await (
+            self._db.commit()
+        )  # Can be placed on manager level instead to improve commit performance
         await self._db.refresh(item)
         return item

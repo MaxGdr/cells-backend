@@ -3,11 +3,11 @@ from models.items import Item
 
 
 class ItemSchema(BaseModel):
-    id: int|None = None
+    id: int | None = None
     title: str
     owner_id: int
 
-    def _from_dto(self, item: Item):
+    def _from_dto(self, item: Item) -> None:
         self.id = item.id
         self.name = item.title
         self.owner_id = item.owner_id
