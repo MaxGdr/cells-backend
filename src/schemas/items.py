@@ -3,7 +3,7 @@ from models.items import Item
 
 
 class ItemSchema(BaseModel):
-    id: int = None
+    id: int|None = None
     title: str
     owner_id: int
 
