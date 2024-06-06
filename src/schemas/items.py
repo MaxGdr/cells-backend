@@ -9,7 +9,7 @@ class ItemSchema(BaseModel):
     owner_id: str
 
     @staticmethod
-    def _from_dto(item: Item): # type: ignore
+    def _from_dto(item: Item):  # type: ignore
         return ItemSchema(id=item.id, title=item.title, owner_id=item.owner_id)
 
     def _to_dto(self) -> Item:
