@@ -1,3 +1,4 @@
+import os
 import contextlib
 from typing import Any, AsyncIterator
 
@@ -58,8 +59,20 @@ class DatabaseSessionManager:
             await session.close()
 
 
+# TODO: Should be removed ASAP
+DB_USERNAME = "cells-backend"
+DB_SECRET = "82I14CNHA0ZnxW7"
+DB_HOST = (
+    "postgres.default.svc.cluster.local"
+    if os.environ.get("DEV") == "false"
+    else "0.0.0.0"
+)
+DB_PORT = "5432"
+DB_NAME = "cells-db"
+
 session_manager = DatabaseSessionManager(
-    "sqlite+aiosqlite:///./test.db", {"future": True}
+    f"postgresql+asyncpg://{DB_USERNAME}:{DB_SECRET}@{DB_HOST}:{DB_PORT}/{DB_NAME}",
+    {"future": True},
 )
 
 

@@ -1,3 +1,4 @@
+from typing import List
 from pydantic import BaseModel
 from models.items import Item
 
@@ -5,12 +6,11 @@ from models.items import Item
 class ItemSchema(BaseModel):
     id: int | None = None
     title: str
-    owner_id: int
+    owner_id: str
 
-    def _from_dto(self, item: Item) -> None:
-        self.id = item.id
-        self.name = item.title
-        self.owner_id = item.owner_id
+    @staticmethod
+    def _from_dto(item: Item):  # type: ignore
+        return ItemSchema(id=item.id, title=item.title, owner_id=item.owner_id)
 
     def _to_dto(self) -> Item:
         return Item(id=self.id, title=self.title, owner_id=self.owner_id)
@@ -22,5 +22,14 @@ class ItemsGetRequestSchema(BaseModel):
 
 
 class ItemsGetResponseSchema(BaseModel):
-    data: list[ItemSchema]
+    data: List[ItemSchema]
     count: int
+
+
+class ItemsCreateRequestSchema(BaseModel):
+    title: str
+    owner_id: str
+
+
+class ItemsCreateResponseSchema(BaseModel):
+    data: ItemSchema
