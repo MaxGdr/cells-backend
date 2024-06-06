@@ -19,9 +19,11 @@ async def lifespan(app: FastAPI) -> AsyncGenerator:
         # Close the DB connection
         await session_manager.close()
 
+
 class EndpointFilter(logging.Filter):
     def filter(self, record: logging.LogRecord) -> bool:
         return record.args and len(record.args) >= 3 and record.args[2] != "/health"
+
 
 # Add filter to the logger
 logging.getLogger("uvicorn.access").addFilter(EndpointFilter())
@@ -32,9 +34,11 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-@app.get('/health')
+
+@app.get("/health")
 def health():
     return {"status": "ok"}
+
 
 # Set all CORS enabled origins
 # if settings.BACKEND_CORS_ORIGINS:
