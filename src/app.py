@@ -22,7 +22,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator:
 
 class EndpointFilter(logging.Filter):
     def filter(self, record: logging.LogRecord) -> bool:
-        return record.args and len(record.args) >= 3 and record.args[2] != "/health"
+        return record.args and len(record.args) >= 3 and record.args[2] != "/health"  # type: ignore
 
 
 # Add filter to the logger
@@ -36,7 +36,7 @@ app = FastAPI(
 
 
 @app.get("/health")
-def health():
+def health() -> dict:
     return {"status": "ok"}
 
 
