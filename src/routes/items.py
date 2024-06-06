@@ -2,8 +2,12 @@ from typing import Any, List
 
 from fastapi import APIRouter
 
-from models.items import Item
-from schemas.items import ItemSchema, ItemsGetResponseSchema
+from schemas.items import (
+    ItemSchema,
+    ItemsGetResponseSchema,
+    ItemsCreateRequestSchema,
+    ItemsCreateResponseSchema,
+)
 
 from managers.items import ItemsManager
 from deps import DBSessionDep
@@ -21,10 +25,27 @@ async def get_items(
     Retrieve items.
     """
 
-    db_items: List[Item] = await ItemsManager(session=session).get_items(
+    items: List[ItemSchema] = await ItemsManager(session=session).get(
         skip=skip, limit=limit
     )
+    print([item for item in items])
+
     return ItemsGetResponseSchema(
-        data=[ItemSchema()._from_dto(item=item) for item in db_items],
-        count=len(db_items),
+        data=items,
+        count=len(items),
     )
+
+
+@router.post("/", response_model=ItemsCreateResponseSchema)
+async def create_item(
+    session: DBSessionDep,
+    item_request: ItemsCreateRequestSchema,
+) -> Any:
+    """
+    Create an item.
+    """
+
+    item: ItemSchema = await ItemsManager(session=session).create(
+        item=ItemSchema(title=item_request.title, owner_id=item_request.owner_id)
+    )
+    return ItemsCreateResponseSchema(data=item)

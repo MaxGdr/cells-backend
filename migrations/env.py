@@ -22,13 +22,12 @@ from src.db.database import Base  # noqa
 target_metadata = Base.metadata
 
 def get_url():
-    # user = os.getenv("POSTGRES_USER", "postgres")
-    # password = os.getenv("POSTGRES_PASSWORD", "")
-    # server = os.getenv("POSTGRES_SERVER", "db")
-    # port = os.getenv("POSTGRES_PORT", "5432")
-    # db = os.getenv("POSTGRES_DB", "app")
-    # return f"postgresql+psycopg://{user}:{password}@{server}:{port}/{db}"
-    return "sqlite+aiosqlite:///./test.db"
+    DB_USERNAME = "cells-backend"
+    DB_SECRET = "82I14CNHA0ZnxW7"
+    DB_HOST = "0.0.0.0"
+    DB_PORT = "5432"
+    DB_NAME = "cells-db"
+    return f"postgresql+asyncpg://{DB_USERNAME}:{DB_SECRET}>@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
 
 def run_migrations_offline() -> None:
