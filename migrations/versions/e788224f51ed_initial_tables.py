@@ -23,7 +23,7 @@ def upgrade() -> None:
         sa.Column('id', sa.Integer(), nullable=False, unique=True, index=True, primary_key=True),
         sa.Column('title', sa.String() , nullable=False, unique=True, index=True),
         sa.Column('description', sa.Text()),
-        sa.Column('owner_id', sa.String()),
+        sa.Column('owner_id', sa.Integer()),
         sa.PrimaryKeyConstraint('id')
     )
 

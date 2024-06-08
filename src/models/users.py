@@ -1,5 +1,4 @@
 from sqlalchemy import Column, Integer, String, DateTime, Boolean
-from sqlalchemy.orm import relationship
 
 from db.database import Base
 
@@ -14,4 +13,3 @@ class User(Base):
     created_at = Column("created_at", DateTime, nullable=False)
     updated_at = Column("updated_at", DateTime, nullable=True)
     full_name = Column("full_name", String, nullable=False)
-    items = relationship("Item", backref="user")

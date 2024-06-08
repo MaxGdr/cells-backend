@@ -2,7 +2,6 @@ from datetime import datetime
 from typing import List
 from pydantic import BaseModel, EmailStr
 from models.users import User
-from schemas.items import ItemSchema
 
 
 class UserSchema(BaseModel):
@@ -13,7 +12,6 @@ class UserSchema(BaseModel):
     is_active: bool | None = None
     created_at: datetime | None = None
     updated_at: datetime | None = None
-    items: List[ItemSchema] | None = None
 
     @staticmethod
     def _from_dto(user: User):  # type: ignore
@@ -24,11 +22,18 @@ class UserSchema(BaseModel):
             is_active=user.is_active,
             created_at=user.created_at,
             updated_at=user.updated_at,
-            items=[],
         )
 
-    # def _to_dto(self) -> User:
-    #     return User(id=self.id, title=self.title, owner_id=self.owner_id)
+    def _to_dto(self) -> User:
+        return User(
+            id=self.id,
+            email=self.email,
+            full_name=self.full_name,
+            password=self.password,
+            is_active=self.is_active,
+            created_at=self.created_at,
+            updated_at=self.updated_at,
+        )
 
 
 class UsersGetRequestSchema(BaseModel):
