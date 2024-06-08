@@ -3,7 +3,7 @@ from typing import List
 
 from fastapi import HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
-from core.security import create_access_token
+from core.security import create_access_token, get_password_hash
 from db.users import UsersCrud
 from models.users import User
 from schemas.auth import TokenSchema
@@ -44,7 +44,7 @@ class UsersManager:
             db_user: User = await self._users_crud.create_user(
                 user=User(
                     email=user.email,
-                    password=user.password,
+                    password=get_password_hash(user.password),
                     full_name=user.full_name,
                     is_active=True,
                     created_at=datetime.now(),
