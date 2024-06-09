@@ -11,7 +11,9 @@ class UsersCrud:
         self._db = db
 
     async def authenticate(self, email: str, password: str) -> User | None:
-        user: User = await self._db.scalars(select(User).where(User.email == email))
+        user: User = (
+            await self._db.scalars(select(User).where(User.email == email))
+        ).one_or_none()
         if not user or not verify_password(password, user.password):
             return None
         return user
