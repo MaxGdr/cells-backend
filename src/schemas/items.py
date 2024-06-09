@@ -6,7 +6,7 @@ from models.items import Item
 class ItemSchema(BaseModel):
     id: int | None = None
     title: str
-    owner_id: str
+    owner_id: int
 
     @staticmethod
     def _from_dto(item: Item):  # type: ignore
@@ -28,7 +28,7 @@ class ItemsGetResponseSchema(BaseModel):
 
 class ItemsCreateRequestSchema(BaseModel):
     title: str
-    owner_id: str
+    owner_id: int
 
 
 class ItemsCreateResponseSchema(BaseModel):

@@ -3,7 +3,8 @@ from typing import AsyncGenerator
 from contextlib import asynccontextmanager
 from fastapi import APIRouter, FastAPI
 from starlette.middleware.cors import CORSMiddleware
-from routes import items
+from routes import items, users, login
+
 
 from db.database import session_manager
 
@@ -53,7 +54,11 @@ app.add_middleware(
 api_router = APIRouter()
 
 api_router.include_router(items.router, prefix="/items", tags=["items"])
+api_router.include_router(users.router, prefix="/users", tags=["users"])
+api_router.include_router(login.router, prefix="/login", tags=["login"])
 app.include_router(api_router, prefix="/v1")
 
-# if __name__ == "__main__":
-#     uvicorn.run("app:app", host="0.0.0.0", port=5000, reload=True)
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run("app:app", host="0.0.0.0", port=5000, reload=True)

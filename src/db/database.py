@@ -72,7 +72,7 @@ DB_NAME = "cells-db"
 
 session_manager = DatabaseSessionManager(
     f"postgresql+asyncpg://{DB_USERNAME}:{DB_SECRET}@{DB_HOST}:{DB_PORT}/{DB_NAME}",
-    {"future": True},
+    {"future": True, "echo": True},
 )
 
 

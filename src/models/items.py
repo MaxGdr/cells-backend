@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, ForeignKey, Integer, String
+
 
 from db.database import Base
 
@@ -9,6 +10,4 @@ class Item(Base):
     id = Column(Integer, primary_key=True)
     title = Column(String, index=True, unique=True)
     description = Column(String)
-    owner_id = Column(String)
-
-    # owner = relationship("User", back_populates="items")
+    owner_id = Column(Integer, ForeignKey("users.id"))

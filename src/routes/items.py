@@ -10,7 +10,7 @@ from schemas.items import (
 )
 
 from managers.items import ItemsManager
-from deps import DBSessionDep
+from deps import CurrentUser, DBSessionDep
 
 router = APIRouter()
 
@@ -18,6 +18,7 @@ router = APIRouter()
 @router.get("/", response_model=ItemsGetResponseSchema)
 async def get_items(
     session: DBSessionDep,
+    current_user: CurrentUser,
     skip: int = 0,
     limit: int = 100,
 ) -> Any:
@@ -26,7 +27,7 @@ async def get_items(
     """
 
     items: List[ItemSchema] = await ItemsManager(session=session).get(
-        skip=skip, limit=limit
+        skip=skip, limit=limit, user_id=current_user.id
     )
     print([item for item in items])
 
@@ -39,6 +40,7 @@ async def get_items(
 @router.post("/", response_model=ItemsCreateResponseSchema)
 async def create_item(
     session: DBSessionDep,
+    current_user: CurrentUser,
     item_request: ItemsCreateRequestSchema,
 ) -> Any:
     """
