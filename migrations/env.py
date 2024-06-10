@@ -18,16 +18,9 @@ if config.config_file_name is not None:
 
 # add your model's MetaData object here
 from src.db.database import Base  # noqa
+from src.core.config import settings  # noqa
 
 target_metadata = Base.metadata
-
-def get_url():
-    DB_USERNAME = "cells-backend"
-    DB_SECRET = "82I14CNHA0ZnxW7"
-    DB_HOST = "0.0.0.0"
-    DB_PORT = "5432"
-    DB_NAME = "cells-db"
-    return f"postgresql+asyncpg://{DB_USERNAME}:{DB_SECRET}>@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
 
 def run_migrations_offline() -> None:
@@ -42,7 +35,7 @@ def run_migrations_offline() -> None:
     script output.
 
     """
-    url = get_url()
+    url = str(settings.SQLALCHEMY_DATABASE_URI)
     context.configure(
         url=url,
         target_metadata=target_metadata,
@@ -68,7 +61,7 @@ async def run_async_migrations() -> None:
     """
 
     configuration = config.get_section(config.config_ini_section)
-    configuration["sqlalchemy.url"] = get_url()
+    configuration["sqlalchemy.url"] = str(settings.SQLALCHEMY_DATABASE_URI)
 
     connectable = async_engine_from_config(
         configuration,
