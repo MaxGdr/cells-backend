@@ -18,4 +18,4 @@ COPY pyproject.toml poetry.lock ./
 RUN poetry install --no-interaction --no-ansi
 WORKDIR /src
 
-# CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
