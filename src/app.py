@@ -4,10 +4,12 @@ from contextlib import asynccontextmanager
 from fastapi import APIRouter, FastAPI
 from starlette.middleware.cors import CORSMiddleware
 from routes import items, users, login
-
+from core.config import settings
 
 from db.database import session_manager
 
+
+print(settings.API_V1_STR)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator:

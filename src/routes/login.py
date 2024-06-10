@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 
 
-from deps import CurrentUser, DBSessionDep
+from core.deps import CurrentUser, DBSessionDep
 from schemas.auth import TokenSchema
 from managers.users import UsersManager
 from schemas.users import UserSchema

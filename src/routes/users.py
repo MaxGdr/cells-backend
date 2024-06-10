@@ -10,7 +10,7 @@ from schemas.users import (
 )
 
 from managers.users import UsersManager
-from deps import DBSessionDep
+from core.deps import DBSessionDep
 
 router = APIRouter()
 

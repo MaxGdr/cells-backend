@@ -12,6 +12,7 @@ from sqlalchemy.ext.asyncio import (
 )
 from sqlalchemy.orm import declarative_base
 
+from core.config import settings
 from exceptions.database import DBEngineException
 
 Base = declarative_base()
@@ -58,23 +59,10 @@ class DatabaseSessionManager:
         finally:
             await session.close()
 
-
-# TODO: Should be removed ASAP
-DB_USERNAME = "cells-backend"
-DB_SECRET = "82I14CNHA0ZnxW7"
-DB_HOST = (
-    "postgres.default.svc.cluster.local"
-    if os.environ.get("DEV") == "false"
-    else "0.0.0.0"
-)
-DB_PORT = "5432"
-DB_NAME = "cells-db"
-
 session_manager = DatabaseSessionManager(
-    f"postgresql+asyncpg://{DB_USERNAME}:{DB_SECRET}@{DB_HOST}:{DB_PORT}/{DB_NAME}",
+    str(settings.SQLALCHEMY_DATABASE_URI),
     {"future": True, "echo": True},
 )
-
 
 async def get_db_session() -> AsyncIterator[AsyncSession]:
     async with session_manager.session() as session:

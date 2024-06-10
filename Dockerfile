@@ -17,5 +17,5 @@ COPY pyproject.toml poetry.lock ./
 # --no-dev
 RUN poetry install --no-interaction --no-ansi
 WORKDIR /src
-ENV DEV=false
+
 CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
