@@ -3,13 +3,10 @@ from typing import AsyncGenerator
 from contextlib import asynccontextmanager
 from fastapi import APIRouter, FastAPI
 from starlette.middleware.cors import CORSMiddleware
-from routes import items, users, login
+from routes import items, models, login
 from core.config import settings
 
 from db.database import session_manager
-
-
-print(settings.API_V1_STR)
 
 
 @asynccontextmanager
@@ -33,8 +30,8 @@ class EndpointFilter(logging.Filter):
 logging.getLogger("uvicorn.access").addFilter(EndpointFilter())
 
 app = FastAPI(
-    title="MySuperAPI",
-    openapi_url="/v1/openapi.json",
+    title="Cells Backend",
+    openapi_url=f"{settings.API_V1_STR}/openapi.json",
     lifespan=lifespan,
 )
 
@@ -57,9 +54,9 @@ app.add_middleware(
 api_router = APIRouter()
 
 api_router.include_router(items.router, prefix="/items", tags=["items"])
-api_router.include_router(users.router, prefix="/users", tags=["users"])
+api_router.include_router(models.router, prefix="/models", tags=["models"])
 api_router.include_router(login.router, prefix="/login", tags=["login"])
-app.include_router(api_router, prefix="/v1")
+app.include_router(api_router, prefix=settings.API_V1_STR)
 
 if __name__ == "__main__":
     import uvicorn
