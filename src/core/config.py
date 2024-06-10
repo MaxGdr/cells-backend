@@ -44,6 +44,4 @@ def load_settings(yml_path: str) -> Settings:
         return Settings(**conf)
 
 
-settings = load_settings(
-    "/settings/settings.yml"
-)
+settings = load_settings("/settings/settings.yml")
