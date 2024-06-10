@@ -48,6 +48,6 @@ async def create_item(
     """
 
     item: ItemSchema = await ItemsManager(session=session).create(
-        item=ItemSchema(title=item_request.title, owner_id=item_request.owner_id)
+        item=ItemSchema(title=item_request.title, owner_id=current_user.id)
     )
     return ItemsCreateResponseSchema(data=item)

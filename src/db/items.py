@@ -10,14 +10,7 @@ class ItemsCrud:
     def __init__(self, db: AsyncSession):
         self._db = db
 
-    async def get_items(self, skip: int = 0, limit: int = 100) -> List[Item]:
-        items: Sequence[Any] = (
-            await self._db.scalars(select(Item).offset(skip).limit(limit))
-        ).all()
-        print([item.__dict__ for item in items])
-        return list(items)
-
-    async def get_user_items(
+    async def get_items(
         self, user_id: int, skip: int = 0, limit: int = 100
     ) -> List[Item]:
         items: Sequence[Any] = (
