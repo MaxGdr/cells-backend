@@ -29,7 +29,7 @@ class ModelsCrud:
         return model
 
     async def update_model(self, model: Model, user_id: int) -> Model:
-        model: Model = (
+        dto_model: Model = (
             await self._db.scalars(
                 update(Model)
                 .where(Model.owner_id == user_id and Model.id == model.id)
@@ -38,8 +38,8 @@ class ModelsCrud:
             )
         ).one()
         await self._db.commit()
-        await self._db.refresh(model)
-        return model
+        await self._db.refresh(dto_model)
+        return dto_model
 
     async def create_model(self, model: Model) -> Model:
         try:

@@ -21,7 +21,7 @@ class Model(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String, index=True, unique=True)
     description = Column(String)
-    model_type = Column(Enum(ModelType), nullable=False)
+    model_type = Column(Enum(ModelType), nullable=False)  # type: ignore
 
     model_versions = relationship("ModelVersion", backref="model", lazy="selectin")
     owner_id = Column(Integer, ForeignKey("users.id"))

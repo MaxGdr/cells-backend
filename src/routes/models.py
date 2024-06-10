@@ -95,12 +95,12 @@ async def get_model_version(
     Create an item.
     """
 
-    model_version: ModelVersionSchema = await ModelVersionsManager(
+    new_model_version: ModelVersionSchema = await ModelVersionsManager(
         session=session
     ).get_model_version_by_number(
         user_id=current_user.id, model_id=model_id, model_version_number=model_version
     )
-    return model_version
+    return new_model_version
 
 
 @router.put("/{model_id}", response_model=ModelSchema)
@@ -139,7 +139,7 @@ async def update_model_version(
     Create an item.
     """
 
-    model_version: ModelVersionSchema = await ModelVersionsManager(
+    new_model_version: ModelVersionSchema = await ModelVersionsManager(
         session=session
     ).update_model_version(
         model_version_request=ModelVersionSchema(
@@ -150,7 +150,7 @@ async def update_model_version(
         ),
         user_id=current_user.id,
     )
-    return model_version
+    return new_model_version
 
 
 @router.post("/", response_model=ModelSchema)
@@ -185,7 +185,9 @@ async def create_model_version(
     Create an item.
     """
 
-    model_version: ModelVersionSchema = await ModelVersionsManager(session=session).create(
+    model_version: ModelVersionSchema = await ModelVersionsManager(
+        session=session
+    ).create(
         model_id=model_id,
         endpoint_id=model_version_request.endpoint_id,
         description=model_version_request.description,
