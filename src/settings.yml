@@ -1,0 +1,6 @@
+---
+  POSTGRES_SERVER: localhost
+  POSTGRES_PORT: 5432
+  POSTGRES_USER: cells-backend
+  POSTGRES_PASSWORD: TO_REPLACE
+  POSTGRES_DB: cells-db

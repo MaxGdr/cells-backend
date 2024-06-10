@@ -10,7 +10,7 @@ from schemas.items import (
 )
 
 from managers.items import ItemsManager
-from deps import CurrentUser, DBSessionDep
+from core.deps import CurrentUser, DBSessionDep
 
 router = APIRouter()
 

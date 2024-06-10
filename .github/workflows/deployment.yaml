@@ -103,5 +103,5 @@ jobs:
           ${{ vars.DOCKER_ARTIFACT_PROJECT}}/\
           ${{ vars.DOCKER_ARTIFACT_REPOSITORY }}/\
           ${{ github.event.repository.name }} \
-          --wait \
+          --atomic \
           ./chart
