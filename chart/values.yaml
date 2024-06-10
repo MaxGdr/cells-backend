@@ -97,7 +97,7 @@ volumes:
 # Additional volumeMounts on the output Deployment definition.
 volumeMounts:
 - name: settings
-  mountPath: "/mnt/settings"
+  mountPath: "/settings"
   readOnly: true
 
 nodeSelector: {}
