@@ -89,16 +89,16 @@ autoscaling:
 
 # Additional volumes on the output Deployment definition.
 volumes:
-# - name: foo
-#   secret:
-#     secretName: mysecret
-#     optional: false
+- name: settings
+  secret:
+    secretName: settings
+    optional: false
 
 # Additional volumeMounts on the output Deployment definition.
 volumeMounts:
-# - name: foo
-#   mountPath: "/etc/foo"
-#   readOnly: true
+- name: settings
+  mountPath: "/mnt/settings"
+  readOnly: true
 
 nodeSelector: {}
 
