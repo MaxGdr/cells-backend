@@ -28,7 +28,6 @@ class ItemsGetResponseSchema(BaseModel):
 
 class ItemsCreateRequestSchema(BaseModel):
     title: str
-    owner_id: int
 
 
 class ItemsCreateResponseSchema(BaseModel):
