@@ -1,4 +1,3 @@
-import os
 import contextlib
 from typing import Any, AsyncIterator
 
@@ -59,10 +58,12 @@ class DatabaseSessionManager:
         finally:
             await session.close()
 
+
 session_manager = DatabaseSessionManager(
     str(settings.SQLALCHEMY_DATABASE_URI),
     {"future": True, "echo": True},
 )
+
 
 async def get_db_session() -> AsyncIterator[AsyncSession]:
     async with session_manager.session() as session:

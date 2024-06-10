@@ -11,6 +11,7 @@ from db.database import session_manager
 
 print(settings.API_V1_STR)
 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator:
     """

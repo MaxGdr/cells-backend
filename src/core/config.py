@@ -4,11 +4,7 @@ import yaml
 from pathlib import Path
 from typing import Literal
 
-from pydantic import (
-    PostgresDsn,
-    computed_field,
-    BaseModel
-)
+from pydantic import PostgresDsn, computed_field, BaseModel
 from pydantic_core import MultiHostUrl
 
 
@@ -44,7 +40,8 @@ def load_settings(yml_path: str):
         raise ValueError("Invalid file path")
     with open(file=yml_path, mode="r", encoding="utf-8") as yml_stream:
         conf = yaml.safe_load(stream=yml_stream)
-        Settings.model_validate(conf, strict=True) # type: ignore
+        Settings.model_validate(conf, strict=True)  # type: ignore
         return Settings(**conf)
+
 
 settings = load_settings(Path(__file__).parent.parent / "settings.yml")
