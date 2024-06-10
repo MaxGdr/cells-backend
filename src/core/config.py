@@ -35,7 +35,7 @@ class Settings(BaseModel):
 
 
 @lru_cache
-def load_settings(yml_path: str):
+def load_settings(yml_path: str) -> Settings:
     if not yml_path or Path(yml_path).suffix != ".yml" or not Path(yml_path).exists():
         raise ValueError("Invalid file path")
     with open(file=yml_path, mode="r", encoding="utf-8") as yml_stream:

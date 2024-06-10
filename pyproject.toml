@@ -26,6 +26,7 @@ sqlalchemy = {extras = ["mypy"], version = "^2.0.30"}
 [tool.poetry.group.lint.dependencies]
 ruff = "^0.4.7"
 mypy = "^1.10.0"
+types-pyyaml = "^6.0.12.20240311"
 
 [build-system]
 requires = ["poetry-core"]
