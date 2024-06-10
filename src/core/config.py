@@ -45,5 +45,5 @@ def load_settings(yml_path: str) -> Settings:
 
 
 settings = load_settings(
-    "/Users/maximegendre/Development/cells/cells-backend/src/settings.yml"
+    "/settings/settings.yml"
 )
