@@ -18,6 +18,6 @@ WORKDIR /src
 
 # Those conf files are available through kubernetes secrets
 ENV CONFIG_PATH="/settings/settings.yml"
-ENV GOOGLE_APPLICATION_CREDENTIALS="/settings/rock-verbena-424808-r3-675de42d907f.json"
+ENV GOOGLE_APPLICATION_CREDENTIALS="/gcp_credentials/rock-verbena-424808-r3-675de42d907f.json"
 
 CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]

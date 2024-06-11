@@ -104,7 +104,7 @@ volumeMounts:
   mountPath: "/settings"
   readOnly: true
 - name: backend-gcp-sa-creds
-  mountPath: "/settings"
+  mountPath: "/gcp_credentials"
   readOnly: true
 
 nodeSelector: {}
