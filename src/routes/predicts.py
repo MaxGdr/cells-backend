@@ -40,5 +40,5 @@ async def predict(
     )
 
     return PredictSchema._from_dict(
-        predict_dict=prediction, model_version=model_version
+        predict_dict=prediction, model_version=model_version_schema
     )
