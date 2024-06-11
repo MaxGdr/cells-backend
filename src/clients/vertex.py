@@ -1,4 +1,4 @@
-from typing import Any, List
+from typing import Any
 from google.cloud import aiplatform
 from google.cloud.aiplatform.gapic.schema import predict
 from google.cloud.aiplatform_v1.types import prediction_service
@@ -18,7 +18,7 @@ class VertexAiClient:
         endpoint_id: str,
         location: str = "europe-west4",
         api_endpoint: str = "europe-west4-aiplatform.googleapis.com",
-    ) -> List[dict[str, Any]]:
+    ) -> dict[str, Any]:
         # The AI Platform services require regional API endpoints.
         client_options = {"api_endpoint": api_endpoint}
         # Initialize client that will be used to create and send requests.

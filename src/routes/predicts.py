@@ -27,7 +27,7 @@ async def predict(
     image_bytes = await image.read()
 
     # Calls model versions models to get the model version
-    model_version: ModelVersionSchema = await ModelVersionsManager(
+    model_version_schema: ModelVersionSchema = await ModelVersionsManager(
         session=session
     ).get_model_version_by_number(
         user_id=current_user.id, model_id=model_id, model_version_number=model_version
@@ -36,7 +36,7 @@ async def predict(
     # Calls the Vertex AI client to get the predictions based on model version
     prediction: dict = vertex_ai_client.predict_image_classification(
         file_content=image_bytes,
-        endpoint_id=model_version.endpoint_id,
+        endpoint_id=model_version_schema.endpoint_id,
     )
 
     return PredictSchema._from_dict(
