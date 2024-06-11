@@ -28,17 +28,6 @@ import enum
 from sqlalchemy import Enum
 
 
-class ModelVersion(Base):
-    __tablename__ = "models_versions"
-
-    id = Column(Integer, primary_key=True)
-    number = Column(Integer, index=True, unique=True)
-    description = Column(String)
-    endpoint_id = Column(String, unique=True)
-
-    model_id = Column(Integer, ForeignKey("models.id"))
-
-
 def upgrade() -> None:
     op.create_table('models',
         sa.Column('id', sa.Integer(), nullable=False, unique=True, index=True, primary_key=True),
@@ -59,7 +48,7 @@ def upgrade() -> None:
 
     op.create_table('model_versions',
         sa.Column('id', sa.Integer(), nullable=False, unique=True, index=True, primary_key=True),
-        sa.Column('number', sa.String(), nullable=False),
+        sa.Column('number', sa.Integer(), nullable=False),
         sa.Column('description', sa.Text()),
         sa.Column('endpoint_id', sa.String()),
         sa.Column('model_id', sa.Integer()),
