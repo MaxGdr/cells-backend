@@ -13,9 +13,9 @@ RUN pip install poetry==$POETRY_VERSION
 COPY src src/
 COPY pyproject.toml poetry.lock ./
 
-# Install dependencies
-# --no-dev
-RUN poetry install --no-interaction --no-ansi
+RUN poetry install --no-interaction --no-ansi --no-dev
 WORKDIR /src
+
+ENV CONFIG_PATH="/settings/settings.yml"
 
 CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
