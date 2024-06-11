@@ -35,4 +35,4 @@ class ModelVersion(Base):
     description = Column(String)
     endpoint_id = Column(String, unique=True)
 
-    model_id = Column(Integer, ForeignKey("models.id"))
+    model_id = Column(Integer, ForeignKey("models.id", ondelete='CASCADE', onupdate='CASCADE'))
