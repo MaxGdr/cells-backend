@@ -93,10 +93,17 @@ volumes:
   secret:
     secretName: settings
     optional: false
+- name: backend-gcp-sa-creds
+  secret:
+    secretName: backend-gcp-sa-creds
+    optional: false
 
 # Additional volumeMounts on the output Deployment definition.
 volumeMounts:
 - name: settings
+  mountPath: "/settings"
+  readOnly: true
+- name: backend-gcp-sa-creds
   mountPath: "/settings"
   readOnly: true
 
