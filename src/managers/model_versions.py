@@ -104,5 +104,5 @@ class ModelVersionsManager:
                 )
             )
         except IntegrityError:
-            raise HTTPException(status_code=400, detail="User owner id is not valid")
+            raise HTTPException(status_code=400, detail="Bad request.")
         return ModelVersionSchema._from_dto(model_version=db_model_version)

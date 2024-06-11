@@ -6,9 +6,9 @@ from fastapi.security import OAuth2PasswordBearer
 
 # from jwt.exceptions import InvalidTokenError
 from pydantic import ValidationError
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import Session
 
-from db.database import get_db_session
+from db.database import get_db
 from core.config import settings
 from models.users import User
 from schemas.auth import TokenPayload
@@ -19,7 +19,7 @@ reusable_oauth2 = OAuth2PasswordBearer(
 )
 TokenDep = Annotated[str, Depends(reusable_oauth2)]
 
-DBSessionDep = Annotated[AsyncSession, Depends(get_db_session)]
+DBSessionDep = Annotated[Session, Depends(get_db)]
 
 
 async def get_current_user(session: DBSessionDep, token: TokenDep) -> User:
@@ -33,7 +33,7 @@ async def get_current_user(session: DBSessionDep, token: TokenDep) -> User:
             status_code=403,
             detail="Could not validate credentials",
         )
-    user = await session.get(User, token_data.sub)
+    user = session.get(User, token_data.sub)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     if not user.is_active:
