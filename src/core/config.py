@@ -1,4 +1,5 @@
 from functools import lru_cache
+import os
 import secrets
 import yaml
 from pathlib import Path
@@ -25,7 +26,7 @@ class Settings(BaseModel):
     @property
     def SQLALCHEMY_DATABASE_URI(self) -> PostgresDsn:
         return MultiHostUrl.build(
-            scheme="postgresql+asyncpg",
+            scheme="postgresql+psycopg2",
             username=self.POSTGRES_USER,
             password=self.POSTGRES_PASSWORD,
             host=self.POSTGRES_SERVER,
@@ -44,4 +45,6 @@ def load_settings(yml_path: str) -> Settings:
         return Settings(**conf)
 
 
-settings = load_settings("/settings/settings.yml")
+settings = load_settings(
+    os.environ.get("CONFIG_PATH", Path(__file__).parent.parent / "settings.yml")
+)

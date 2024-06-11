@@ -1,24 +1,8 @@
 import logging
-from typing import AsyncGenerator
-from contextlib import asynccontextmanager
 from fastapi import APIRouter, FastAPI
 from starlette.middleware.cors import CORSMiddleware
-from routes import items, models, login
+from routes import models, login, users
 from core.config import settings
-
-from db.database import session_manager
-
-
-@asynccontextmanager
-async def lifespan(app: FastAPI) -> AsyncGenerator:
-    """
-    Function that handles startup and shutdown events.
-    To understand more, read https://fastapi.tiangolo.com/advanced/events/
-    """
-    yield
-    if session_manager._engine is not None:
-        # Close the DB connection
-        await session_manager.close()
 
 
 class EndpointFilter(logging.Filter):
@@ -32,7 +16,6 @@ logging.getLogger("uvicorn.access").addFilter(EndpointFilter())
 app = FastAPI(
     title="Cells Backend",
     openapi_url=f"{settings.API_V1_STR}/openapi.json",
-    lifespan=lifespan,
 )
 
 
@@ -53,7 +36,8 @@ app.add_middleware(
 
 api_router = APIRouter()
 
-api_router.include_router(items.router, prefix="/items", tags=["items"])
+# api_router.include_router(items.router, prefix="/items", tags=["items"])
+api_router.include_router(users.router, prefix="/users", tags=["users"])
 api_router.include_router(models.router, prefix="/models", tags=["models"])
 api_router.include_router(login.router, prefix="/login", tags=["login"])
 app.include_router(api_router, prefix=settings.API_V1_STR)

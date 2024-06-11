@@ -51,7 +51,10 @@ class ModelSchema(BaseModel):
             owner_id=model.owner_id,
             description=model.description,
             model_type=model.model_type,
-            model_versions=model.model_versions,
+            model_versions=[
+                ModelVersionSchema._from_dto(model_version)
+                for model_version in model.model_versions
+            ],
         )
 
     def _to_dto(self) -> Model:
