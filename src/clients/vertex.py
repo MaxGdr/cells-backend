@@ -1,6 +1,7 @@
 from typing import Any, List
 from google.cloud import aiplatform
 from google.cloud.aiplatform.gapic.schema import predict
+from google.cloud.aiplatform_v1.types import prediction_service
 import logging
 import base64
 import time
@@ -45,7 +46,7 @@ class VertexAiClient:
         start_time = time.time()
 
         # Perform the prediction
-        response = client.predict(
+        response: prediction_service.PredictResponse = client.predict(
             endpoint=endpoint, instances=instances, parameters=parameters
         )
 
@@ -53,8 +54,7 @@ class VertexAiClient:
         delta_time = end_time - start_time
 
         self._logger.info("Prediction took %s seconds", delta_time)
-        for prediction in response.predictions:
-            print("prediction:", dict(prediction))
-            self._logger.info("prediction: %s", dict(prediction))
-
-        return list(response.predictions)
+        formatted_predictions = [
+            dict(prediction) for prediction in response.predictions
+        ]
+        return formatted_predictions[0]
