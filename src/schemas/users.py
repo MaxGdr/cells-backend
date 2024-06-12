@@ -52,5 +52,21 @@ class UsersCreateRequestSchema(BaseModel):
     password: str
 
 
-class UsersCreateResponseSchema(BaseModel):
-    data: UserSchema
+class UserPublicSchema(BaseModel):
+    id: int
+    email: EmailStr
+    full_name: str
+    is_active: bool
+    created_at: datetime
+    updated_at: datetime | None = None
+
+    @staticmethod
+    def _from_dto(user: User):  # type: ignore
+        return UserSchema(
+            id=user.id,
+            email=user.email,
+            full_name=user.full_name,
+            is_active=user.is_active,
+            created_at=user.created_at,
+            updated_at=user.updated_at,
+        )

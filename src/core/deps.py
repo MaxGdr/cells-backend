@@ -6,6 +6,7 @@ from fastapi.security import OAuth2PasswordBearer
 
 # from jwt.exceptions import InvalidTokenError
 from pydantic import ValidationError
+from schemas.users import UserPublicSchema
 from sqlalchemy.orm import Session
 
 from db.database import get_db
@@ -22,7 +23,7 @@ TokenDep = Annotated[str, Depends(reusable_oauth2)]
 DBSessionDep = Annotated[Session, Depends(get_db)]
 
 
-async def get_current_user(session: DBSessionDep, token: TokenDep) -> User:
+async def get_current_user(session: DBSessionDep, token: TokenDep) -> UserPublicSchema:
     try:
         payload = jwt.decode(
             token, settings.HASH_SECRET_KEY, algorithms=[settings.ALGORITHM]
@@ -38,7 +39,7 @@ async def get_current_user(session: DBSessionDep, token: TokenDep) -> User:
         raise HTTPException(status_code=404, detail="User not found")
     if not user.is_active:
         raise HTTPException(status_code=400, detail="Inactive user")
-    return user
+    return UserPublicSchema._from_dto(user=user)
 
 
-CurrentUser = Annotated[User, Depends(get_current_user)]
+CurrentUser = Annotated[UserPublicSchema, Depends(get_current_user)]

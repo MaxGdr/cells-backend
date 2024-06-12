@@ -1,13 +1,13 @@
 from datetime import datetime, timedelta
 from typing import List
-
+from core.config import settings
 from fastapi import HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 from core.security import create_access_token, get_password_hash
 from db.users import UsersCrud
 from models.users import User
 from schemas.auth import TokenSchema
-from schemas.users import UserSchema
+from schemas.users import UserPublicSchema, UserSchema
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.exc import IntegrityError
 
@@ -26,8 +26,8 @@ class UsersManager:
             raise HTTPException(status_code=400, detail="Incorrect email or password")
         elif not user.is_active:
             raise HTTPException(status_code=400, detail="Inactive user")
-        # TODO: Set token expiration time in settings
-        access_token_expires = timedelta(minutes=30)
+
+        access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
 
         return TokenSchema(
             access_token=create_access_token(
@@ -39,7 +39,7 @@ class UsersManager:
         db_users: List[User] = await self._users_crud.get_users(skip=skip, limit=limit)
         return [UserSchema._from_dto(user=user) for user in db_users]
 
-    async def create(self, user: UserSchema) -> UserSchema:
+    async def create(self, user: UserSchema) -> UserPublicSchema:
         try:
             db_user: User = await self._users_crud.create_user(
                 user=User(
@@ -50,6 +50,6 @@ class UsersManager:
                     created_at=datetime.now(),
                 )
             )
-            return UserSchema._from_dto(user=db_user)
+            return UserPublicSchema._from_dto(user=db_user)
         except IntegrityError:
             raise HTTPException(status_code=400, detail="User already exists")

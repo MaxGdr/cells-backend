@@ -6,7 +6,7 @@ from core.config import settings
 
 def test_user_can_login(client: TestClient):
     response = client.post(
-        "/api/v1/users/",
+        "/api/v1/users/signup",
         json={
             "email": "test@example.com",
             "full_name": "Full Name Test",
@@ -15,11 +15,7 @@ def test_user_can_login(client: TestClient):
     )
     assert response.status_code == 200
 
-    response = client.get("/api/v1/users")
-    data = response.json()["data"]
-    user = data[0]
-
-    assert user["email"] == "test@example.com"
+    user = response.json()
 
     response = client.post(
         headers={"Content-Type": "application/x-www-form-urlencoded"},
@@ -33,16 +29,15 @@ def test_user_can_login(client: TestClient):
 
 def test_valid_jwt_token(client: TestClient):
     response = client.post(
-        "/api/v1/users/",
+        "/api/v1/users/signup",
         json={
             "email": "test@example.com",
             "full_name": "Full Name Test",
             "password": "password",
         },
     )
-    response = client.get("/api/v1/users")
-    data = response.json()["data"]
-    user = data[0]
+    assert response.status_code == 200
+    user = response.json()
     response = client.post(
         headers={"Content-Type": "application/x-www-form-urlencoded"},
         url="/api/v1/login/access-token",
@@ -62,7 +57,7 @@ def test_valid_jwt_token(client: TestClient):
 
 def test_invalid_jwt_token(client: TestClient):
     response = client.post(
-        "/api/v1/users/",
+        "/api/v1/users/signup",
         json={
             "email": "test@example.com",
             "full_name": "Full Name Test",
@@ -70,9 +65,8 @@ def test_invalid_jwt_token(client: TestClient):
         },
     )
     assert response.status_code == 200
-    response = client.get("/api/v1/users")
-    data = response.json()["data"]
-    user = data[0]
+    user = response.json()
+
     assert user["email"] == "test@example.com"
     response = client.post(
         headers={"Content-Type": "application/x-www-form-urlencoded"},
@@ -93,17 +87,16 @@ def test_invalid_jwt_token(client: TestClient):
 
 def test_user_access_token(client: TestClient):
     response = client.post(
-        "/api/v1/users/",
+        "/api/v1/users/signup",
         json={
             "email": "test@example.com",
             "full_name": "Full Name Test",
             "password": "password",
         },
     )
+    assert response.status_code == 200
 
-    response = client.get("/api/v1/users")
-    data = response.json()["data"]
-    user = data[0]
+    user = response.json()
     response = client.post(
         headers={"Content-Type": "application/x-www-form-urlencoded"},
         url="/api/v1/login/access-token",
