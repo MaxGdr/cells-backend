@@ -1,5 +1,6 @@
 from typing import List, Sequence
-from sqlalchemy import select, update
+from sqlalchemy import and_, cast, select, update
+import sqlalchemy
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 
@@ -18,9 +19,11 @@ class ModelVersionsCrud:
                 select(ModelVersion)
                 .join(Model)
                 .where(
-                    Model.id == model_id
-                    and Model.owner_id == user_id
-                    and ModelVersion.model_id == Model.id
+                    and_(
+                        Model.id == model_id,
+                        Model.owner_id == user_id,
+                        ModelVersion.model_id == Model.id,
+                    )
                 )
                 .offset(skip)
                 .limit(limit)
@@ -36,9 +39,11 @@ class ModelVersionsCrud:
                 select(ModelVersion)
                 .join(Model)
                 .where(
-                    ModelVersion.number == version
-                    and ModelVersion.model_id == model_id
-                    and Model.owner_id == user_id
+                    and_(
+                        ModelVersion.number == cast(version, sqlalchemy.Integer),
+                        ModelVersion.model_id == model_id,
+                        Model.owner_id == user_id,
+                    )
                 )
             )
         ).one_or_none()
@@ -49,7 +54,9 @@ class ModelVersionsCrud:
             self._db.scalars(
                 update(ModelVersion)
                 .where(
-                    ModelVersion.number == model.number and ModelVersion.id == model.id
+                    and_(
+                        ModelVersion.number == model.number, ModelVersion.id == model.id
+                    )
                 )
                 .values(
                     endpoint_id=model.endpoint_id,

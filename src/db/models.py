@@ -1,5 +1,5 @@
 from typing import List, Sequence
-from sqlalchemy import select, update
+from sqlalchemy import and_, select, update
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 
@@ -23,7 +23,9 @@ class ModelsCrud:
     async def get_model(self, model_id: int, user_id: int) -> Model | None:
         model: Model | None = (
             self._db.scalars(
-                select(Model).where(Model.owner_id == user_id and Model.id == model_id)
+                select(Model).where(
+                    and_(Model.owner_id == user_id, Model.id == model_id)
+                )
             )
         ).one_or_none()
         return model
@@ -32,7 +34,7 @@ class ModelsCrud:
         dto_model: Model = (
             self._db.scalars(
                 update(Model)
-                .where(Model.owner_id == user_id and Model.id == model.id)
+                .where(and_(Model.owner_id == user_id, Model.id == model.id))
                 .values(name=model.name, description=model.description)
                 .returning(Model)
             )

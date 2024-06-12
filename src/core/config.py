@@ -21,6 +21,8 @@ class Settings(BaseModel):
     POSTGRES_USER: str
     POSTGRES_PASSWORD: str
     POSTGRES_DB: str = ""
+    GCP_PROJECT_ID: str
+    GCP_PROJECT_LOCATION: str
 
     @computed_field  # type: ignore[misc]
     @property

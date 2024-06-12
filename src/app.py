@@ -1,7 +1,7 @@
 import logging
 from fastapi import APIRouter, FastAPI
 from starlette.middleware.cors import CORSMiddleware
-from routes import models, login, users
+from routes import models, login, predicts, users
 from core.config import settings
 
 
@@ -39,6 +39,7 @@ api_router = APIRouter()
 # api_router.include_router(items.router, prefix="/items", tags=["items"])
 api_router.include_router(users.router, prefix="/users", tags=["users"])
 api_router.include_router(models.router, prefix="/models", tags=["models"])
+api_router.include_router(predicts.router, prefix="/predict", tags=["predicts"])
 api_router.include_router(login.router, prefix="/login", tags=["login"])
 app.include_router(api_router, prefix=settings.API_V1_STR)
 

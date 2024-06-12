@@ -89,16 +89,20 @@ autoscaling:
 
 # Additional volumes on the output Deployment definition.
 volumes:
-- name: settings
-  secret:
-    secretName: settings
-    optional: false
+- name: external-config
+  projected:
+    sources:
+    - secret:
+        name: settings
+    - secret:
+        name: backend-gcp-sa-creds
 
 # Additional volumeMounts on the output Deployment definition.
 volumeMounts:
-- name: settings
-  mountPath: "/settings"
+- name: external-config
+  mountPath: "/etc/cells-backend"
   readOnly: true
+
 
 nodeSelector: {}
 

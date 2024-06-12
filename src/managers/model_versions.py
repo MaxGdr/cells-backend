@@ -34,13 +34,13 @@ class ModelVersionsManager:
         model_version: (
             ModelVersion | None
         ) = await self._model_versions_crud.get_model_version_by_version(
-            model_version_number=model_version_number,
+            version=model_version_number,
             model_id=model_id,
             user_id=user_id,
         )
         if not model_version:
             raise HTTPException(status_code=404, detail="Model Version not found")
-        return ModelVersionSchema._from_dto(model=model_version)
+        return ModelVersionSchema._from_dto(model_version=model_version)
 
     async def update_model_version(
         self, model_version_request: ModelVersionSchema, user_id: int
