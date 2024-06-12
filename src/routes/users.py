@@ -31,7 +31,7 @@ async def signup(
     return user
 
 
-@router.post("/me", response_model=UserPublicSchema)
+@router.get("/me", response_model=UserPublicSchema)
 async def get_current_user(
     current_user: CurrentUser,
 ) -> UserPublicSchema:
