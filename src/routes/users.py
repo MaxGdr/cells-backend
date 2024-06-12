@@ -1,33 +1,56 @@
-from typing import Any
-
 from fastapi import APIRouter
 
 from schemas.users import (
     UserSchema,
     UsersCreateRequestSchema,
-    UsersCreateResponseSchema,
+    UserResponseSchema,
 )
 
 from managers.users import UsersManager
-from core.deps import DBSessionDep
+from core.deps import CurrentUser, DBSessionDep
 
 router = APIRouter()
 
 
-@router.post("/", response_model=UsersCreateResponseSchema)
-async def create_user(
+@router.post("/signup", response_model=UserResponseSchema)
+async def signup(
     session: DBSessionDep,
-    item_request: UsersCreateRequestSchema,
-) -> Any:
+    user_request: UsersCreateRequestSchema,
+) -> UserResponseSchema:
     """
-    Create an item.
+    Create new user without the need to be logged in.
     """
 
     user: UserSchema = await UsersManager(session=session).create(
         user=UserSchema(
-            email=item_request.email,
-            password=item_request.password,
-            full_name=item_request.full_name,
+            email=user_request.email,
+            password=user_request.password,
+            full_name=user_request.full_name,
         )
     )
-    return UsersCreateResponseSchema(data=user)
+    return UserResponseSchema(
+        id=user.id,
+        email=user.email,
+        full_name=user.full_name,
+        is_active=user.is_active,
+        created_at=user.created_at,
+        updated_at=user.updated_at,
+    )
+
+
+@router.post("/me", response_model=UserResponseSchema)
+async def get_current_user(
+    current_user: CurrentUser,
+) -> UserResponseSchema:
+    """
+    Get current user.
+    """
+
+    return UserResponseSchema(
+        id=current_user.id,
+        email=current_user.email,
+        full_name=current_user.full_name,
+        is_active=current_user.is_active,
+        created_at=current_user.created_at,
+        updated_at=current_user.updated_at,
+    )

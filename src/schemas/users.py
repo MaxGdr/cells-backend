@@ -52,5 +52,10 @@ class UsersCreateRequestSchema(BaseModel):
     password: str
 
 
-class UsersCreateResponseSchema(BaseModel):
-    data: UserSchema
+class UserResponseSchema(BaseModel):
+    id: int
+    email: EmailStr
+    full_name: str
+    is_active: bool
+    created_at: datetime
+    updated_at: datetime | None = None

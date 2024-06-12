@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from typing import List
-
+from core.config import settings
 from fastapi import HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 from core.security import create_access_token, get_password_hash
@@ -26,8 +26,8 @@ class UsersManager:
             raise HTTPException(status_code=400, detail="Incorrect email or password")
         elif not user.is_active:
             raise HTTPException(status_code=400, detail="Inactive user")
-        # TODO: Set token expiration time in settings
-        access_token_expires = timedelta(minutes=30)
+
+        access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
 
         return TokenSchema(
             access_token=create_access_token(

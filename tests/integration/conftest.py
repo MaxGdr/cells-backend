@@ -37,13 +37,13 @@ def user_header(client: TestClient):
     password: str = "password"
 
     response = client.post(
-        "/api/v1/users/",
+        "/api/v1/users/signup",
         json={"full_name": "Full Name Test", "email": username, "password": password},
     )
     response = client.post(
         headers={"Content-Type": "application/x-www-form-urlencoded"},
         url="/api/v1/login/access-token",
-        data={"username": "test@example.com", "password": password},
+        data={"username": username, "password": password},
     )
     user_creds = response.json()
     return {"Authorization": f"Bearer {user_creds["access_token"]}"}
