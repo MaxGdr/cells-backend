@@ -29,7 +29,7 @@ async def get_models(
     limit: int = 100,
 ) -> ModelsGetResponseSchema:
     """
-    Retrieve items.
+    Retrieve models.
     """
 
     models: List[ModelSchema] = await ModelsManager(session=session).get_models(
@@ -51,7 +51,7 @@ async def get_model_versions(
     limit: int = 100,
 ) -> ModelVersionsGetResponseSchema:
     """
-    Retrieve items.
+    Retrieve model versions.
     """
 
     model_versions: List[ModelVersionSchema] = await ModelVersionsManager(
@@ -73,7 +73,7 @@ async def get_model(
     model_id: int,
 ) -> ModelSchema:
     """
-    Create an item.
+    Get a model.
     """
 
     model: ModelSchema = await ModelsManager(session=session).get_model(
@@ -92,7 +92,7 @@ async def get_model_version(
     model_version: int,
 ) -> ModelVersionSchema:
     """
-    Create an item.
+    Get model versions for a model.
     """
 
     new_model_version: ModelVersionSchema = await ModelVersionsManager(
@@ -111,7 +111,7 @@ async def update_model(
     model_id: int,
 ) -> ModelSchema:
     """
-    Create an item.
+    Update a model metadata.
     """
 
     model: ModelSchema = await ModelsManager(session=session).update_model(
@@ -136,7 +136,7 @@ async def update_model_version(
     model_id: int,
 ) -> ModelVersionSchema:
     """
-    Create an item.
+    Update a model version metadata.
     """
 
     new_model_version: ModelVersionSchema = await ModelVersionsManager(
@@ -160,7 +160,7 @@ async def create_model(
     model_request: ModelsCreateRequestSchema,
 ) -> ModelSchema:
     """
-    Create an item.
+    Create a model.
     """
 
     model: ModelSchema = await ModelsManager(session=session).create(
@@ -182,7 +182,7 @@ async def create_model_version(
     model_version_request: ModelVersionsCreateRequestSchema,
 ) -> ModelVersionSchema:
     """
-    Create an item.
+    Create a model version.
     """
 
     model_version: ModelVersionSchema = await ModelVersionsManager(
